@@ -81,3 +81,33 @@ Merged T1 work builds the track record that unlocks T2/T3 tier-gated bounties, w
 - [ ] One clear diff per issue
 
 *Found this tutorial useful? The next one covers the T2 tiers and reputation mechanics. Open a PR if you want to write it.*
+
+## Diagrams
+
+### The contributor loop
+
+```mermaid
+flowchart LR
+  A[Find a bounty issue] --> B[Tier check]
+  B -->|T1 open race| C[Branch off your fork]
+  B -->|T2/T3 tier-gated| D[Claim first, then build]
+  C --> E[PR with Closes #N + wallet]
+  D --> E
+  E --> F[Multi-LLM review pipeline]
+  F -->|changes requested| C
+  F -->|passed| G[Maintainer merge]
+  G --> H[FNDRY payout to your wallet]
+```
+
+### What the review pipeline actually checks
+
+```
++------------------+     +--------------------+     +------------------+
+| Diff vs issue     | --> | Tests / CI status   | --> | Payout gate      |
+| acceptance        |     |                    |     | wallet in PR     |
+| criteria          |     | security flags      |     | Closes #N ref    |
++------------------+     +--------------------+     +------------------+
+   (LLM reviewer A)        (LLM reviewer B)          (bot, mechanical)
+```
+
+If your PR stalls at one of these columns, that is where to fix next.
